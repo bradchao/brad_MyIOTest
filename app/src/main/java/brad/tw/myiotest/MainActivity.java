@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void test3(View v){
         try {
-            FileOutputStream fout = openFileOutput("app.dat",MODE_PRIVATE);
-            fout.write("Hello, World\nHello, Brad".getBytes());
+            FileOutputStream fout = openFileOutput("app.dat",MODE_APPEND);
+            fout.write("Hello, World\nHello, Brad\n".getBytes());
             fout.flush();
             fout.close();
             Toast.makeText(this, "Save2 OK", Toast.LENGTH_SHORT).show();
