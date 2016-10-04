@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private TextView tv;
 
-    private File sdroot;
+    private File sdroot, dir1, dir2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
         sdroot = Environment.getExternalStorageDirectory();
         Log.v("brad", sdroot.getAbsolutePath());
+
+        File[] dir = sdroot.listFiles();
+        for (File p : dir){
+            Log.v("brad", p.getName());
+        }
+
+        dir1 = new File(sdroot, "dir1");
+        dir2 = new File(sdroot, "Android/data/" + getPackageName());
+
+        if (!dir1.exists())dir1.mkdirs();
+        if (!dir2.exists())dir2.mkdirs();
+
+
 
     }
 
@@ -112,10 +125,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void test5(View v){
+        File file1 = new File(dir1, "test1.txt");
+        try {
+            FileOutputStream fout = new FileOutputStream(file1);
+            fout.write("Hello, Brad".getBytes());
+            fout.flush();
+            fout.close();
+            Toast.makeText(this, "Save1 OK", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        File file2 = new File(dir2, "test1.txt");
+        try {
+            FileOutputStream fout = new FileOutputStream(file2);
+            fout.write("Hello, Brad\nHello, World\nOK123\n".getBytes());
+            fout.flush();
+            fout.close();
+            Toast.makeText(this, "Save2 OK", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
     public void test6(View v){
+        File file2 = new File(dir2, "test1.txt");
+        try {
+            FileInputStream fin =
+                    new FileInputStream(file2);
+            byte[] buf = new byte[(int)file2.length()];
+            fin.read(buf);
+            fin.close();
+
+            tv.setText(new String(buf,0,buf.length));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
